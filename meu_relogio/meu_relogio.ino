@@ -37,6 +37,9 @@ void setup()
   lcd.init(); // INICIA A COMUNICAÇÃO COM O DISPLAY
   lcd.backlight(); // LIGA A ILUMINAÇÃO DO DISPLAY
   lcd.clear(); // LIMPA O DISPLAY
+  Serial.begin(9600);
+  Serial.println("teste");
+
 }
 
 

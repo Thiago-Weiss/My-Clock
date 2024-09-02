@@ -1,0 +1,29 @@
+typedef struct {
+    unsigned bit1 : 1;
+    unsigned bit2 : 2;
+    unsigned bit3 : 5;
+} BitFields;
+
+void setup() {
+    Serial.begin(9600);
+
+    BitFields bf;
+    bf.bit1 = 1;
+    bf.bit2 = 3;
+    bf.bit3 = 31;
+
+    Serial.print("bit1: ");
+    Serial.println(bf.bit1);
+    Serial.print("bit2: ");
+    Serial.println(bf.bit2);
+    Serial.print("bit3: ");
+    Serial.println(bf.bit3);
+}
+
+void loop() {
+    // Não é necessário fazer nada aqui
+}
+
+mascara de bit 
+
+
