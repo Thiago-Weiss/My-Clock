@@ -1,4 +1,23 @@
+fazer a parte de salvar os dados na memoria (config do alarme)
+fazer ele recuperar na hora de iniciar o programa
 
+fazer o timer pra ele voltar para o menu
+
+fazer efeito de texto como de piscar ou de escurecer e acender
+
+fazer ele apagar a luz de fundo quando ficar de noite e acender de manha
+
+fazer a seleçao de musica
+
+gravar as musicas
+
+integrar com o relogio
+
+montar ele fisicamente
+
+integrar com a internet
+
+fazer a parte da temperatura
 
 
 

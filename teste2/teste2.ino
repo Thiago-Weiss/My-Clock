@@ -13,18 +13,18 @@ LiquidCrystal_I2C lcd(LCD_ADDRESS, 16, 2);
 /////////////// class button ///////////////
 #define BUTTON_BOUNCE 50
 #define BUTTON_PRESS 800
+#define PRESS_SECONDS 150
 class Button {
 private:
-  byte timeBounce = BUTTON_BOUNCE;
-  byte timePress = BUTTON_PRESS;
   unsigned int lastMove = 0;
-  bool last_status = true;
+  bool lastStatus = true;
   byte digPin;
   void (*funcPressed)(byte *val, byte maxVal) = nullptr;
   void (*funcRelease)(byte *val, byte maxVal) = nullptr;
   void (*funcPress)(byte *val, byte maxVal) = nullptr;
   byte *value;
   byte maxValue;
+
 
 public:
   Button(byte p, void (*pressed)(byte *val, byte maxVal), byte *val, byte maxVal) {
@@ -62,28 +62,46 @@ public:
     bool status = digitalRead(digPin);
     unsigned int time = millis() - lastMove;
 
-    if (time < timeBounce) return;  // check bounce
+    if (time < BUTTON_BOUNCE) return;  // check bounce
 
-    if (status == last_status) {          // check switch state
-      if (status and time > timePress) {  // check button press
-        if (funcPress != nullptr) {
-          funcPress(value, maxValue);
-        }
-      }
+    if (!status and lastStatus) {  // check release
+      release();
+      lastStatus = status;
+      lastMove = millis();
       return;
     }
 
-    lastMove = millis();
-    last_status = status;
+    if (!status) return;
 
-    if (status) {  // check pressed
-      if (funcPressed != nullptr) {
-        funcPressed(value, maxValue);
-      }
-    } else {  // check relesed
-      if (funcRelease != nullptr) {
-        funcRelease(value, maxValue);
-      }
+    if (!lastStatus) {  //pressed
+      pressed();
+      lastStatus = status;
+      lastMove = millis();
+      return;
+    }
+
+    if (time > BUTTON_PRESS) {  //press
+      press();
+      lastMove += PRESS_SECONDS;
+    }
+  }
+
+private:
+  void pressed() {
+    if (funcPressed != nullptr) {
+      funcPressed(value, maxValue);
+    }
+  }
+
+  void press() {
+    if (funcPress != nullptr) {
+      funcPress(value, maxValue);
+    }
+  }
+
+  void release() {
+    if (funcRelease != nullptr) {
+      funcRelease(value, maxValue);
     }
   }
 };
@@ -94,20 +112,35 @@ public:
 
 //==========================================
 /////////////// vars ///////////////////////
-byte asd = 10; //controle
+byte asd = 10;  //controle
+
+enum SCREENS {
+    MENU,    
+    ALARME_1,    
+    ALARME_2,    
+    CONFIG_ALARME   
+};
+
 //   alarme        hh mm d  s  t  q  q  s  s
 byte alarme1[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 byte alarme2[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 byte *alarmes[] = { alarme1, alarme2 };
-byte maxAlarme[] = { 24, 60, 1, 1, 1, 1, 1, 1, 1 };
+byte maxAlarme[] = { 24, 60, 2, 2, 2, 2, 2, 2, 2 };
 
 byte posAlarme = 0;
 byte posAlarmeLimite = 9;
 
+// data         hh:dd - DD/MM/AA - d
+byte data[] = { 0, 0, 0, 0, 0, 0 };
+byte maxData[] = { 24, 60, 32, 13, 100, 7 };
+
+byte posData = 0;
+byte posDataLimite = 6;
+
 // telas
 byte telaAtual = 0;
-byte telaLimite = 3;
+byte telaLimite = 4;
 
 // text
 String linha1;
@@ -118,26 +151,44 @@ extern Button bnt1;
 extern Button bnt2;
 extern Button bnt3;
 
-// funcs
-extern void (*bntFuncs[])(byte *, byte);
 
 //==========================================
 /////////////// funcs //////////////////////
 void nextVal(byte *val, byte maxVal);
+void nextValData(byte *val, byte maxVal);
+void nextValAlarm(byte *val, byte maxVal);
+
 void switchWindows(byte *val, byte maxVal);
 void clearBnt(Button bnt);
+
 void displayText();
 void showMenu();
-String dayOfWeek(int dayW);
 void showAlarm();
+void showConfigData();
+
+String dayOfWeek(int dayW);
+String formatText(byte val, bool sinal);
+String numToText(byte val);
 
 
-
-
+//==========================================
+/////////////// funcs //////////////////////
 void nextVal(byte *val, byte maxVal) {
   *val += 1;
   if (*val >= maxVal) *val = 0;
   Serial.println(*val);
+}
+
+void nextValAlarm(byte *val, byte maxVal) {
+  nextVal(val, maxVal);
+  bnt3.setValue(&alarmes[telaAtual - 1][posAlarme]);
+  bnt3.setMaxValue(maxAlarme[posAlarme]);
+}
+
+void nextValData(byte *val, byte maxVal) {
+  nextVal(val, maxVal);
+  bnt3.setValue(&data[posData]);
+  bnt3.setMaxValue(maxData[posData]);
 }
 
 
@@ -146,27 +197,38 @@ void switchWindows(byte *val, byte maxVal) {
   lcd.clear();
 
   switch (telaAtual) {
-    case 0:
+    case MENU:
       {
         clearBnt(&bnt2);
         clearBnt(&bnt3);
         break;
       }
-    case 1:
-    case 2:
+    case ALARME_1:
+    case ALARME_2:
       {
         posAlarme = 0;
-        bnt2.setPresed(nextVal);
-        //bnt2.setPress(nextVal);
+        bnt2.setPresed(nextValAlarm);
+        bnt2.setPress(nextValAlarm);
         bnt2.setValue(&posAlarme);
-        bnt2.setValue(posAlarmeLimite);
+        bnt2.setMaxValue(posAlarmeLimite);
 
         bnt3.setPresed(nextVal);
-        //bnt3.setPress(nextVal);
+        bnt3.setPress(nextVal);
         bnt3.setValue(&alarmes[telaAtual - 1][posAlarme]);
-        bnt3.setValue(maxAlarme[posAlarme]);
+        bnt3.setMaxValue(maxAlarme[posAlarme]);
         break;
       }
+    case CONFIG_ALARME:
+      posData = 0;
+      bnt2.setPresed(nextValData);
+      bnt2.setPress(nextValData);
+      bnt2.setValue(&posData);
+      bnt2.setMaxValue(posDataLimite);
+
+      bnt3.setPresed(nextVal);
+      bnt3.setPress(nextVal);
+      bnt3.setValue(&data[posData]);
+      bnt3.setMaxValue(maxData[posData]);
   }
 }
 void clearBnt(Button *bnt) {
@@ -176,7 +238,6 @@ void clearBnt(Button *bnt) {
   bnt->setRelease(nullptr);
   bnt->setValue(&asd);
   bnt->setMaxValue(10);
-
 }
 
 void displayText() {
@@ -184,15 +245,20 @@ void displayText() {
   linha2 = "";
 
   switch (telaAtual) {
-    case 0:
+    case MENU:
       {
         showMenu();
         break;
       }
-    case 1:
-    case 2:
+    case ALARME_1:
+    case ALARME_2:
       {
         showAlarm();
+        break;
+      }
+    case CONFIG_ALARME:
+      {
+        showConfigData();
         break;
       }
   }
@@ -234,50 +300,72 @@ String dayOfWeek(int dayW) {
     case 5: return "Quinta ";
     case 6: return "Sexta  ";
     case 7: return "Sabado ";
-    default : return " ";
+    default: return " ";
   }
 }
 
-void showAlarm() {
-  linha1 = "";
-  byte val= alarmes[telaAtual - 1][0];
+String numToText(byte val){
   String text = String(val);
   text = (val < 10 ? "0" + text : text);
-  linha1 += (posAlarme == 0 ? ">" + text + "<" : " " + text + " ");
-  linha1 += ":";
+  return text;
+}
 
-  val = alarmes[telaAtual - 1][1];
-  text = String(val);
-  text = (val < 10 ? "0" + text : text);
-  linha1 += (posAlarme == 1 ? ">" + text + "<" : " " + text + " ");
+String formatText(byte val, bool sinal){
+  String text = numToText(val);
+  return (sinal ? ">" + text + "<" : " " + text + " ");
+}
+
+
+void showAlarm() {
+  linha1 += formatText(alarmes[telaAtual - 1][0], posAlarme == 0);
+  linha1 += ":";
+  linha1 += formatText(alarmes[telaAtual - 1][1], posAlarme == 1);
   linha1 += "alarm " + String(telaAtual);
 
   linha2 = (posAlarme == 2 ? "" : " ");
   for (int i = 2; i < posAlarmeLimite; i++) {
-    char texte = dayOfWeek(i-1)[0] + ('a' - 'A');
+    char letra = dayOfWeek(i - 1)[0] + (alarmes[telaAtual - 1][i] ? 0 : ('a' - 'A'));
     if (posAlarme == i) {
       linha2 += ">";
-      linha2 += String(texte);
+      linha2 += String(letra);
       linha2 += "<";
       continue;
     }
-    linha2 += String(texte);
-    linha2 += (i == posAlarmeLimite - 1 ? " " : "-");
+    linha2 += String(letra);
+    linha2 += (i == posAlarmeLimite - 1 || i + 1 == posAlarme ? "" : "-");
   }
+  linha2 += "  ";
 }
 
 
 
-
-void (*bntFuncs[])(byte *, byte) = { nullptr, nextVal };
-
-
-
+void showConfigData() {
+  linha1 = "";
+  String text = "";
 
 
+  linha1 += formatText(data[0], posData == 0);
+  linha1 += ":";
+  linha1 += formatText(data[1], posData == 1);
+  linha1 += " data  " ;
 
+  linha2 = (posData == 2 ? "" : " ");
+  for (int i = 2; i < posDataLimite - 1; i++) {
+    text = numToText(data[i]);
 
-
+    if (posData == i){
+      linha2 += ">";
+      linha2 += text;
+      linha2 += "<";
+      continue;
+    }
+    linha2 += text;
+    linha2 += (i == posDataLimite - 2 || i + 1 == posData ? "" : "/");
+  }
+  linha2 += (posData == 4 ? "dia" : " dia");
+  text = dayOfWeek(data[5] + 1)[0];
+  linha2 += (posData == 5 ? ">" + text + "<" : " " + text + " ");
+}
 
 #define BNT_PIN1 4
 #define BNT_PIN2 7
@@ -303,4 +391,3 @@ void loop() {
   bnt3.att();
   displayText();
 }
-
