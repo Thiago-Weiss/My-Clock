@@ -1,29 +1,53 @@
-typedef struct {
-    unsigned bit1 : 1;
-    unsigned bit2 : 2;
-    unsigned bit3 : 5;
-} BitFields;
 
-void setup() {
-    Serial.begin(9600);
 
-    BitFields bf;
-    bf.bit1 = 1;
-    bf.bit2 = 3;
-    bf.bit3 = 31;
 
-    Serial.print("bit1: ");
-    Serial.println(bf.bit1);
-    Serial.print("bit2: ");
-    Serial.println(bf.bit2);
-    Serial.print("bit3: ");
-    Serial.println(bf.bit3);
-}
 
-void loop() {
-    // Não é necessário fazer nada aqui
-}
 
-mascara de bit 
+/*  
+byte customChar[8] = {
+  0b11111,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b11111
+};
+    lcd.write(byte(0)); // Exibe o caractere personalizado
+*/
+
+
+
+/*
+EEPROM.write(10, 123);          // Escreve o valor 123 no endereço 10
+EEPROM.update(10, 123);         // Atualiza o valor no endereço 10 se for diferente do valor atual (byte)
+byte value = EEPROM.read(10);   // Lê o byte armazenado no endereço 10
+
+int value;
+EEPROM.get(10, value);  // Lê um int do endereço 10 e armazena na variável `value`
+
+int value = 1234;
+EEPROM.put(10, value);  // Escreve o valor `1234` no endereço 10
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
