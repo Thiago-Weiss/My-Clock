@@ -50,9 +50,6 @@ extern byte cursor;
 #define LCD_LIGHT 9
 
 
-// Controle
-extern byte asd;
-
 // Alarmes
 extern byte alarme1[];
 extern byte alarme2[];
