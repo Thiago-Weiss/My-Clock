@@ -3,51 +3,70 @@
 
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
+#include <Adafruit_AHTX0.h>
+#include "virtuabotixRTC.h"
+
 #include "Button.h"
+#include "utils.h"
+#include "Timer.h"
 
+// sensor de temperatura e humidade
+extern Adafruit_AHTX0 sensorTemp;
 
-// lcd
+// LCD
 extern LiquidCrystal_I2C lcd;
 
-// bnt
+// Bnt
+extern Button bnt1;
 extern Button bnt2;
 extern Button bnt3;
-extern Button bnt1;
+
+// RTC
+extern virtuabotixRTC myRTC;
+
+// Timer
+extern Timer backMenuTimer;
+extern Timer displayOffTimer;
+
+// bg lcd light
+extern bool displayOn;
+extern byte displayLight;
+
+// Enum para as telas
+enum WINDOWS {
+  MENU,
+  ALARME_1,
+  ALARME_2,
+  DATA,
+  SOUND
+};
+#define WINDOWS_LIMITE (SOUND + 1)
+
+// cursor
+extern byte cursor;
+#define cursorAlarmLimite 9
+#define cursorDataLimite 6
+#define LCD_LIGHT_VALUE A0
+#define LCD_LIGHT 9
 
 
 // Controle
 extern byte asd;
 
-// Enum para as telas
-enum SCREENS {
-    MENU,    
-    ALARME_1,    
-    ALARME_2,    
-    CONFIG_ALARME   
-};
-
 // Alarmes
 extern byte alarme1[];
 extern byte alarme2[];
-extern byte *alarmes[];
 extern byte maxAlarme[];
-
-// Dados do alarme
-extern byte posAlarme;
-extern byte posAlarmeLimite;
 
 // Dados
 extern byte data[];
 extern byte maxData[];
-extern byte posData;
-extern byte posDataLimite;
 
 // Dados da tela
-extern byte telaAtual;
-extern byte telaLimite;
+extern byte currentWindows;
 
 // Textos
-extern String linha1;
-extern String linha2;
+extern char linha1[];
+extern char linha2[];
 
-#endif // GVARS_H
+#endif  // GVARS_H
