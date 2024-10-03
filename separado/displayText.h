@@ -5,10 +5,13 @@
 
 void displayText();
 void showMenuLinha1();
+void showMenuLinha2();
 void showMenuLinha2Data();
 void showMenuLinha2Temp();
 void showAlarm(byte alarme[]);
 void showConfigData();
+void showConfigSound();
+void showAlarmPlayScreen();
 
 void dayOfWeek(uint8_t dayW, char* result);
 void numToText(uint8_t val, char* result);

@@ -2,13 +2,16 @@
 #include "Gvars.h"
 #include "displayText.h"
 #include "funcsBnt.h"
+#include "save_load.h"
+#include "music.h"
+
 
 //==========================================
 /////////////// class RTC //////////////////
-#define clk 3
-#define dat 2
-#define rst 5
-virtuabotixRTC myRTC(clk, dat, rst);
+#define clk_PIN 3
+#define dat_PIN 2
+#define rst_PIN 5
+virtuabotixRTC myRTC(clk_PIN, dat_PIN, rst_PIN);
 //==========================================
 
 //==========================================
@@ -36,17 +39,18 @@ Button bnt3(BNT_PIN3, bnt_3_Funcs, true, true, false);
 
 //==========================================
 /////////////// class Timer ////////////////
-Timer backMenuTimer(1000 * 30, backMenu); // 10s
-Timer displayOffTimer(1000 * 120, displayTurnOff);      // 60s
+Timer backMenuTimer(1000 * 30, backMenu);           // 10s
+Timer displayOffTimer(1000 * 120, displayTurnOff);  // 60s
 //==========================================
 
 
-//==========================================
-/////////////// sound ///////////////
-#define BUZZER_PIN 6
 
-void setup()
-{
+
+void setup() {
+  // talvez fazer um firts load pra zerra todos os valores
+  // load data
+  //load_all();
+
   // buzzer
   pinMode(BUZZER_PIN, OUTPUT);
 
@@ -59,21 +63,17 @@ void setup()
   lcd.backlight();
   lcd.clear();
   backMenuTimer.stop();
-
-
 }
 
-void loop()
-{
+void loop() {
+  // delay pra nao att todo frame (50? 40?)
+  myRTC.updateTime();
   bnt1.att();
   bnt2.att();
   bnt3.att();
+  att_alarme();
+  attPlayMusic();
   backMenuTimer.att();
   displayOffTimer.att();
   displayText();
 }
-
-
-
-
-

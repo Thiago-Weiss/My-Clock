@@ -16,6 +16,10 @@ extern Adafruit_AHTX0 sensorTemp;
 // LCD
 extern LiquidCrystal_I2C lcd;
 
+#define LCD_LIGHT 9
+extern bool displayOn;
+extern byte displayLight;
+
 // Bnt
 extern Button bnt1;
 extern Button bnt2;
@@ -28,26 +32,24 @@ extern virtuabotixRTC myRTC;
 extern Timer backMenuTimer;
 extern Timer displayOffTimer;
 
-// bg lcd light
-extern bool displayOn;
-extern byte displayLight;
+
+
 
 // Enum para as telas
 enum WINDOWS {
   MENU,
   ALARME_1,
   ALARME_2,
+  SOUND,
   DATA,
-  SOUND
+  ALARME_PLAYING
 };
-#define WINDOWS_LIMITE (SOUND + 1)
+#define WINDOWS_LIMITE 5
 
 // cursor
 extern byte cursor;
 #define cursorAlarmLimite 9
-#define cursorDataLimite 6
-#define LCD_LIGHT_VALUE A0
-#define LCD_LIGHT 9
+#define cursorDataLimite 7
 
 
 // Alarmes

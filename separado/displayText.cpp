@@ -9,25 +9,7 @@ void displayText() {
     case MENU:
       {
         showMenuLinha1();
-        static bool data_temp = true;
-        static byte timerTrocaLimite = 6;
-        static byte timerTroca = 0;
-        static byte lastSec = 0;
-
-        if (myRTC.seconds != lastSec) {
-          lastSec = myRTC.seconds;
-          timerTroca += 1;
-          if (timerTroca > timerTrocaLimite) {
-            timerTroca = 0;
-            data_temp = !data_temp;
-          }
-        }
-
-        if (data_temp) {
-          showMenuLinha2Data();
-        } else {
-          showMenuLinha2Temp();
-        }
+        showMenuLinha2();
         break;
       }
     case ALARME_1:
@@ -40,9 +22,20 @@ void displayText() {
         showAlarm(alarme2);
         break;
       }
+    case SOUND:
+      {
+
+        break;
+      }
     case DATA:
       {
+
         showConfigData();
+        break;
+      }
+    case ALARME_PLAYING:
+      {
+        showAlarmPlayScreen();
         break;
       }
   }
@@ -54,7 +47,6 @@ void displayText() {
 }
 
 void showMenuLinha1() {
-  myRTC.updateTime();
   char result[9];
 
   // linha1 = "hh:mm:ss sabado ";
@@ -73,6 +65,29 @@ void showMenuLinha1() {
   dayOfWeek(myRTC.dayofweek, result);
   strcat(linha1, result);
 }
+
+void showMenuLinha2() {
+  static bool data_temp = true;
+  static byte timerTrocaLimite = 6;
+  static byte timerTroca = 0;
+  static byte lastSec = 0;
+
+  if (myRTC.seconds != lastSec) {
+    lastSec = myRTC.seconds;
+    timerTroca += 1;
+    if (timerTroca > timerTrocaLimite) {
+      timerTroca = 0;
+      data_temp = !data_temp;
+    }
+  }
+
+  if (data_temp) {
+    showMenuLinha2Data();
+  } else {
+    showMenuLinha2Temp();
+  }
+}
+
 
 void showMenuLinha2Data() {
   char result[9];
@@ -156,24 +171,18 @@ void showAlarm(byte alarme[]) {
   strcat(linha2, "  ");
 }
 
+
+void showConfigSound() {
+}
+
 void showConfigData() {
   char result[9];
 
-  // linha1 "_HH_:_MM__data__"
-  formatNum(data[0], result, 0);
-  strcpy(linha1, result);
-  strcat(linha1, ":");
-
-  formatNum(data[1], result, 1);
-  strcat(linha1, result);
-  strcat(linha1, " Data  ");
-
-
-  // linha2 "_dd/mm/aaaa_day_"
-  strcpy(linha2, (cursor == 2 ? "" : " "));
-  for (int i = 2; i < cursorDataLimite - 1; i++) {
+  // linha1 "_dd/mm/aaaa_day_"
+  strcpy(linha1, (cursor == 0 ? "" : " "));
+  for (int i = 0; i < 3; i++) {
     numToText(data[i], result);
-    if (i == cursorDataLimite - 2) {
+    if (i == 2) {
       char buffer[5] = "20";
       strcat(buffer, result);
       strcpy(result, buffer);
@@ -183,28 +192,45 @@ void showConfigData() {
       strcat(buffer, result);
       strcat(buffer, "<");
       strcpy(result, buffer);
-    } else if (i != cursorDataLimite - 2 && i + 1 != cursor) {
+    } else if (i != 2 && i + 1 != cursor) {
       strcat(result, "/");
     }
-    strcat(linha2, result);
+    strcat(linha1, result);
   }
 
-
-  dayOfWeek(data[cursorDataLimite - 1] + 1, result);
+  // linha1 "_dd/mm/aaaa_day_"
+  dayOfWeek(data[3] + 1, result);
   result[3] = '\0';
-  if (cursor == cursorDataLimite - 1) {
-    strcat(linha2, ">");
-    strcat(linha2, result);
-    strcat(linha2, "<");
-  } else if (cursor == cursorDataLimite - 2) {
-    strcat(linha2, result);
-    strcat(linha2, " ");
-  } else {
-    strcat(linha2, " ");
-    strcat(linha2, result);
-    strcat(linha2, " ");
+  if (cursor == 3) {
+    strcat(linha1, ">");
+    strcat(linha1, result);
+    strcat(linha1, "<");
+  } else if (cursor == 2){
+    strcat(linha1, result);
+    strcat(linha1, " ");
+  } 
+  else {
+    strcat(linha1, " ");
+    strcat(linha1, result);
+    strcat(linha1, " ");
   }
+
+
+  // linha2 "_HH_:_MM__Data__"
+  formatNum(data[5], result, 4);
+  strcpy(linha2, result);
+  strcat(linha2, ":");
+
+  formatNum(data[6], result, 5);
+  strcat(linha2, result);
+  strcat(linha2, (cursor == 6 ? ">Data?<" : " Data  "));
 }
+
+
+
+void showAlarmPlayScreen() {
+}
+
 
 void dayOfWeek(uint8_t dayW, char* result) {
   switch (dayW) {
