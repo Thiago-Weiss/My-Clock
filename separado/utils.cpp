@@ -1,8 +1,20 @@
 #include "utils.h"
+
+
 #include "music.h"
+#include "Gvars.h"
+#include "save_load.h"
 
 
-void nextVal(byte *val, byte maxVal) {
+// bg lcd light
+static bool displayOn = true;
+static uint8_t displayLight = 255;
+
+
+
+
+
+void nextVal(uint8_t *val, uint8_t maxVal) {
   *val += 1;
   if (*val >= maxVal)
     *val = 0;
@@ -23,7 +35,7 @@ bool displayTurnOn() {
     displayOffTimer.reset();
     return false;
   }
-  byte displayLight = 255;
+  uint8_t displayLight = 255;
   analogWrite(LCD_LIGHT, displayLight);
   displayOn = true;
   displayOffTimer.reset();
@@ -31,13 +43,13 @@ bool displayTurnOn() {
 }
 
 void displayTurnOff() {
-  byte displayLight = 0;
+  uint8_t displayLight = 0;
   analogWrite(LCD_LIGHT, displayLight);
   displayOn = false;
 }
 
 
-void att_alarme() {
+void attAlarmePlay() {
   //   alarme        hh mm d  s  t  q  q  s  s
 
   static bool alarme_1_ativado = false;
@@ -46,7 +58,7 @@ void att_alarme() {
       if (alarme2[1] == myRTC.minutes) {
         if (!alarme_1_ativado) {
           alarme_1_ativado = false;
-          startPlayMusic(songs[1], 3);
+          startPlayMusic(songs[0], 0);
 
           currentWindows = ALARME_PLAYING;
         }
@@ -62,7 +74,7 @@ void att_alarme() {
       if (alarme2[1] == myRTC.minutes) {
         if (!alarme_1_ativado) {
           alarme_1_ativado = false;
-          startPlayMusic(songs[1], 3);
+          startPlayMusic(songs[0], 0);
         }
       } else {
         alarme_2_ativado = false;

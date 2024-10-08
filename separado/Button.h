@@ -15,17 +15,18 @@ private:
   bool pressed;
   bool press;
   bool release;
-  byte digPin;
+  const uint8_t digPin;
   void (*clickFunc)();
-  byte *value;
-  byte maxValue;
+
 
 public:
-  Button(byte p, void (*func)(), bool pressed, bool press, bool release);
+  Button(uint8_t p, void (*func)(), bool pressed, bool press, bool release);
 
   void setClick(void (*func)());
   void att();
 
+private:
+  void callfunc();
 };
 
 #endif // BUTTON_H

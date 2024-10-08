@@ -1,20 +1,25 @@
 #ifndef MUSIC_H
 #define MUSIC_H
 
-#include "music.h"
+
 #include <Arduino.h> 
 
 #define BUZZER_PIN 6
 
-struct  Music {
+
+
+struct Music {
   const int* notes;
-  const byte* duration;
+  const int* duration;
   const byte* repeat;
-  const byte notesAmount;
+  const int notesAmount;
   const int wholenote;
 };
 
-extern Music* songs[];
+extern const Music* songs[];
+extern const char* songsNames[];
+extern const uint8_t songsNamesLimite;
+extern bool playingMusic;
 
 void startPlayMusic(Music* song, byte repeat);
 void attPlayMusic();

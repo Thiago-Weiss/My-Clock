@@ -1,6 +1,6 @@
 #include "Button.h"
 
-Button::Button(byte p, void (*func)(), bool pressed, bool press, bool release)
+Button::Button(uint8_t p, void (*func)(), bool pressed, bool press, bool release)
   : lastMove(0), lastStatus(false), digPin(p), clickFunc(func), pressed(pressed), press(press), release(release) {
   pinMode(digPin, INPUT);
 }
@@ -17,7 +17,7 @@ void Button::att() {
 
   if (!status && lastStatus) {  // check release
     if (release) {
-      clickFunc();
+      callfunc();
     }
     lastStatus = status;
     lastMove = millis();
@@ -28,7 +28,7 @@ void Button::att() {
 
   if (!lastStatus) {  // pressed
     if (pressed) {
-      clickFunc();
+      callfunc();
     }
     lastStatus = status;
     lastMove = millis();
@@ -37,8 +37,14 @@ void Button::att() {
 
   if (time > BUTTON_PRESS) {  // press
     if (press) {
-      clickFunc();
+      callfunc();
     }
     lastMove += PRESS_SECONDS;
+  }
+}
+
+void Button::callfunc() {
+  if (!nullptr) {
+    clickFunc();
   }
 }

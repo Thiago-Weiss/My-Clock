@@ -1,7 +1,28 @@
 #include "displayText.h"
+#include "Gvars.h"
 
-//==========================================
-/////////////// funcs //////////////////////
+// text
+static char linha1[18] = {'\0'};
+static char linha2[18] = {'\0'};
+
+// mains funcs
+static void showMenuLinha1();
+static void showMenuLinha2();
+static void showMenuLinha2Data();
+static void showMenuLinha2Temp();
+static void showAlarm(uint8_t alarme[]);
+static void showConfigData();
+static void showConfigSound();
+static void showAlarmPlayScreen();
+
+// auxiliarys funcs
+static void dayOfWeek(uint8_t dayW, char* result);
+static void numToText(uint8_t val, char* result);
+static void formatNum(uint8_t val, char* result, uint8_t pos);
+static void formatDay(uint8_t val, char* result);
+
+
+
 void displayText() {
 
 
@@ -46,7 +67,7 @@ void displayText() {
   lcd.print(linha2);
 }
 
-void showMenuLinha1() {
+static void showMenuLinha1() {
   char result[9];
 
   // linha1 = "hh:mm:ss sabado ";
@@ -66,11 +87,11 @@ void showMenuLinha1() {
   strcat(linha1, result);
 }
 
-void showMenuLinha2() {
+static void showMenuLinha2() {
   static bool data_temp = true;
-  static byte timerTrocaLimite = 6;
-  static byte timerTroca = 0;
-  static byte lastSec = 0;
+  static uint8_t timerTrocaLimite = 6;
+  static uint8_t timerTroca = 0;
+  static uint8_t lastSec = 0;
 
   if (myRTC.seconds != lastSec) {
     lastSec = myRTC.seconds;
@@ -89,7 +110,7 @@ void showMenuLinha2() {
 }
 
 
-void showMenuLinha2Data() {
+static void showMenuLinha2Data() {
   char result[9];
 
   // linha2 = "-- dd/mm/aaaa--";
@@ -109,7 +130,7 @@ void showMenuLinha2Data() {
 }
 
 
-void showMenuLinha2Temp() {
+static void showMenuLinha2Temp() {
   sensors_event_t humidity, temp;
   sensorTemp.getEvent(&humidity, &temp);
   char buffer[5];
@@ -132,7 +153,7 @@ void showMenuLinha2Temp() {
 
 
 
-void showAlarm(byte alarme[]) {
+static void showAlarm(uint8_t alarme[]) {
   char result[9];
 
   // linha1 ">HH<:_MM_alarm_1"
@@ -172,10 +193,10 @@ void showAlarm(byte alarme[]) {
 }
 
 
-void showConfigSound() {
+static void showConfigSound() {
 }
 
-void showConfigData() {
+static void showConfigData() {
   char result[9];
 
   // linha1 "_dd/mm/aaaa_day_"
@@ -228,11 +249,15 @@ void showConfigData() {
 
 
 
-void showAlarmPlayScreen() {
+static void showAlarmPlayScreen() {
 }
 
 
-void dayOfWeek(uint8_t dayW, char* result) {
+
+
+
+
+static void dayOfWeek(uint8_t dayW, char* result) {
   switch (dayW) {
     case 1:
       strcpy(result, "Domingo");
@@ -260,7 +285,7 @@ void dayOfWeek(uint8_t dayW, char* result) {
   }
 }
 
-void numToText(uint8_t val, char* result) {
+static void numToText(uint8_t val, char* result) {
   if (val < 10) {
     strcpy(result, "0");
 
@@ -273,7 +298,7 @@ void numToText(uint8_t val, char* result) {
   }
 }
 
-void formatNum(uint8_t val, char* result, uint8_t pos) {
+static void formatNum(uint8_t val, char* result, uint8_t pos) {
   numToText(val, result);
   if (cursor == pos) {
     char buffer[5] = ">";
@@ -289,7 +314,7 @@ void formatNum(uint8_t val, char* result, uint8_t pos) {
 }
 
 
-void formatDay(uint8_t val, char* result) {
+static void formatDay(uint8_t val, char* result) {
   dayOfWeek(val, result);
   result[0] = tolower(result[0]);
   result[1] = '\0';

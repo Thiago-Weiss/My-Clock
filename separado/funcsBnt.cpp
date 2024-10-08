@@ -1,26 +1,36 @@
 #include "funcsBnt.h"
+#include "utils.h"
 #include "save_load.h"
+#include "Gvars.h"
 
+
+
+// funcs
+static void configDataValues();
 
 
 void bnt_1_Funcs() {
   if (displayTurnOn()) return;
-
 
   backMenuTimer.reset();
   lcd.clear();
   cursor = 0;
   nextVal(&currentWindows, WINDOWS_LIMITE);
 
-
+  // preenche os campos de configuraçao de data
   switch (currentWindows) {
     case DATA:
       {
         configDataValues();
         break;
       }
+    case MENU:{
+      saveAll();
+    }
   }
 }
+
+
 void bnt_2_Funcs() {
   if (displayTurnOn()) return;
 
@@ -53,6 +63,9 @@ void bnt_2_Funcs() {
       }
   }
 }
+
+
+
 void bnt_3_Funcs() {
   if (displayTurnOn()) return;
 
@@ -93,7 +106,7 @@ void bnt_3_Funcs() {
 
 
 
-void configDataValues() {
+static void configDataValues() {
   // data         hh:mm - DD/MM/AA - d
 
   data[0] = myRTC.hours;

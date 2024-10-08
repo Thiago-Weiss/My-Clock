@@ -202,7 +202,7 @@
                                                                                                          //|
 //++++++++++++++++++++++++++++++++++++++++++ Conversion Macros ++++++++++++++++++++++++++++++++++++++++++//|
 //  Macros to convert the bcd values of the registers to normal integer variables.  The code uses        //|
-//  seperate variables for the high byte and the low byte of the bcd, so these macros handle both bytes  //|
+//  seperate variables for the high uint8_t and the low uint8_t of the bcd, so these macros handle both uint8_ts  //|
 //  seperately.                                                                                          //|
 #define bcd2bin(h,l)    (((h)*10) + (l))                                                                 //|
 #define bin2bcd_h(x)   ((x)/10)                                                                          //|
@@ -365,7 +365,7 @@ ds1302_struct rtc;                                        // Creates the Real Ti
 //                                                                                                       //|    |
 //=======================================================================================================//|    |
 //                                                                                                       //|    |
-//  This function reads 8 bytes clock data in burst mode from the DS1302.  This function may be called   //|    |
+//  This function reads 8 uint8_ts clock data in burst mode from the DS1302.  This function may be called   //|    |
 //  as the first function, also the pinMode is set.                                                      //|    |
 //                                                                                                       //|    |
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//|    |
@@ -395,7 +395,7 @@ void virtuabotixRTC::DS1302_clock_burst_read( uint8_t *p)  {                    
 //                                                                                                       //|    |
 //=======================================================================================================//|    |
 //                                                                                                       //|    |
-//  This function writes 8 bytes clock data in burst mode to the DS1302.  This function may be called    //|    |
+//  This function writes 8 uint8_ts clock data in burst mode to the DS1302.  This function may be called    //|    |
 //  as the first function, also the pinMode is set.                                                      //|    |
 //                                                                                                       //|    |
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//|    |
@@ -426,7 +426,7 @@ void virtuabotixRTC::DS1302_clock_burst_write( uint8_t *p)  {                   
 //                                                                                                       //|    |
 //=======================================================================================================//|    |
 //                                                                                                       //|    |
-//  This function reads a byte from the DS1302 (clock or ram).  The address could be like "0x80" or      //|    |
+//  This function reads a uint8_t from the DS1302 (clock or ram).  The address could be like "0x80" or      //|    |
 //  "0x81", the lowest bit is set anyway.  This function may be called as the first function, also the   //|    |
 //  pinMode is set.                                                                                      //|    |
 //                                                                                                       //|    |
@@ -459,7 +459,7 @@ uint8_t virtuabotixRTC::DS1302_read(int address)  {                             
 //                                                                                                       //|    |
 //=======================================================================================================//|    |
 //                                                                                                       //|    |
-//  This function writes a byte to the DS1302 (clock or ram).  The address could be like "0x80" or       //|    |
+//  This function writes a uint8_t to the DS1302 (clock or ram).  The address could be like "0x80" or       //|    |
 //  "0x81", the lowest bit is cleared anyway.  This function may be called as the first function,        //|    |
 //  also the pinMode is set.                                                                             //|    |
 //                                                                                                       //|    |
@@ -546,7 +546,7 @@ void virtuabotixRTC::_DS1302_stop( void )  {                                    
 //                                                                                                       //|    |
 //=======================================================================================================//|    |
 //                                                                                                       //|    |
-//  A helper function for reading a byte with bit toggle.  This function assumes that the SCLK is still  //|    |
+//  A helper function for reading a uint8_t with bit toggle.  This function assumes that the SCLK is still  //|    |
 //  high.                                                                                                //|    |
 //                                                                                                       //|    |
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//|    |
@@ -583,7 +583,7 @@ uint8_t virtuabotixRTC::_DS1302_toggleread( void )  {                           
 //                                                                                                       //|    |
 //=======================================================================================================//|    |
 //                                                                                                       //|    |
-//  A helper function for writing a byte with bit toggle.  The 'release' parameter is for a read after   //|    |
+//  A helper function for writing a uint8_t with bit toggle.  The 'release' parameter is for a read after   //|    |
 //  this write.  It will release the I/O-line and will keep the SCLK high.                               //|    |
 //                                                                                                       //|    |
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//|    |

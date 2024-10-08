@@ -1,17 +1,18 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include "Gvars.h"
-#include "save_load.h"
-#include "music.h"
+#include <Arduino.h>
 
-void nextVal(byte *val, byte maxVal);
+#define LCD_LIGHT 9
+
+
+void nextVal(uint8_t *val, uint8_t maxVal);
 void backMenu();
 
 bool displayTurnOn();
 void displayTurnOff();
 
-void att_alarme();
+void attAlarmePlay();
 
 
 #endif // UTILS_H

@@ -10,7 +10,6 @@ private:
   bool active;
   void (*func)();
 
-
 public:
   Timer(int time, void (*func)());
 

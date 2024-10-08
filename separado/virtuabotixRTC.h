@@ -265,12 +265,12 @@ class virtuabotixRTC  {                                                         
     void initRTC(uint8_t CLK, uint8_t IO, uint8_t ENABLE);     // Sets the pins and enable them          //|
     void DS1302_clock_burst_read( uint8_t *p);                 // Reads clock data, and sets pinmode     //|
     void DS1302_clock_burst_write( uint8_t *p);                // Writes clcok data, and sets pinmode    //|
-    uint8_t DS1302_read(int address);                          // Reads a byte from DS1302, sets pinmode //|
-    void DS1302_write( int address, uint8_t data);             // Writes a byte to DS1302, sets pinmode  //|
+    uint8_t DS1302_read(int address);                          // Reads a uint8_t from DS1302, sets pinmode //|
+    void DS1302_write( int address, uint8_t data);             // Writes a uint8_t to DS1302, sets pinmode  //|
     void _DS1302_start( void);                                 // Function to help setup start condition //|
     void _DS1302_stop(void);                                   // Function to help stop the communication//|
-    uint8_t _DS1302_toggleread( void);                         // Function to help read byte with bit    //|
-    void _DS1302_togglewrite( uint8_t data, uint8_t release);  // Function to help wrtie byte with bit   //|
+    uint8_t _DS1302_toggleread( void);                         // Function to help read uint8_t with bit    //|
+    void _DS1302_togglewrite( uint8_t data, uint8_t release);  // Function to help wrtie uint8_t with bit   //|
     void setDS1302Time(uint8_t seconds, uint8_t minutes,       // This function sets the time on the     //|
                        uint8_t hours, uint8_t dayofweek,       // DS1302                                 //|
                        uint8_t dayofmonth, uint8_t month,                                                //|
