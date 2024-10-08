@@ -32,22 +32,19 @@ void setup() {
 }
 
 void loop() {
-  if (!playingMusic) delay(50);
+  if (!playingMusic) delay(45);
+
   myRTC.updateTime();
+
   bnt1.att();
   bnt2.att();
   bnt3.att();
-  attAlarmePlay();
+
   attPlayMusic();
+
   backMenuTimer.att();
   displayOffTimer.att();
+  alarmTimer.att();
+
   displayText();
 }
-
-
-
-
-
-
-
-

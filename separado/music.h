@@ -18,10 +18,12 @@ struct Music {
 
 extern const Music* songs[];
 extern const char* songsNames[];
+extern uint8_t currentMusic;
 extern const uint8_t songsNamesLimite;
 extern bool playingMusic;
 
-void startPlayMusic(Music* song, byte repeat);
+void startPlayMusic(const Music* song, byte repeat);
+void stopPlayMusic();
 void attPlayMusic();
 
 

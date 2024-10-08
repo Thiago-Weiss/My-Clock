@@ -13,16 +13,26 @@ static uint8_t displayLight = 255;
 
 
 
+void previousVal(uint8_t *val, uint8_t maxVal) {
+  if (*val == 0){
+    *val = maxVal - 1;
+  }else{
+    *val -= 1;
+  }
+  backMenuTimer.reset();
+  Serial.print(*val);
+}
 
 void nextVal(uint8_t *val, uint8_t maxVal) {
   *val += 1;
   if (*val >= maxVal)
     *val = 0;
   backMenuTimer.reset();
-  Serial.println(*val);
+  Serial.print(*val);
 }
 
 void backMenu() {
+  stopPlayMusic();
   currentWindows = MENU;
   lcd.clear();
   saveAll();
@@ -58,8 +68,10 @@ void attAlarmePlay() {
       if (alarme2[1] == myRTC.minutes) {
         if (!alarme_1_ativado) {
           alarme_1_ativado = false;
+          alarmPlaying = 1;
           startPlayMusic(songs[0], 0);
-
+          backMenuTimer.stop();
+          backMenu();
           currentWindows = ALARME_PLAYING;
         }
       } else {
@@ -74,11 +86,25 @@ void attAlarmePlay() {
       if (alarme2[1] == myRTC.minutes) {
         if (!alarme_1_ativado) {
           alarme_1_ativado = false;
+          alarmPlaying = 2;
           startPlayMusic(songs[0], 0);
+          backMenuTimer.stop();
+          backMenu();
+          currentWindows = ALARME_PLAYING;
         }
       } else {
         alarme_2_ativado = false;
       }
     }
   }
+}
+
+bool alarmOff() {
+  if (alarmPlaying > 0) {
+    alarmPlaying = 0;
+    lcd.clear();
+    currentWindows = MENU;
+    return true;
+  }
+  return false;
 }

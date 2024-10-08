@@ -21,6 +21,7 @@ extern virtuabotixRTC myRTC;
 // Timer
 extern Timer backMenuTimer;
 extern Timer displayOffTimer;
+extern Timer alarmTimer;
 
 // Bnt
 extern Button bnt1;
@@ -38,6 +39,8 @@ enum WINDOWS {
   DATA,
   ALARME_PLAYING
 };
+
+
 #define WINDOWS_LIMITE 5
 // Dados da tela
 extern uint8_t currentWindows;
@@ -52,11 +55,11 @@ extern uint8_t cursor;
 extern uint8_t alarme1[];
 extern uint8_t alarme2[];
 extern const uint8_t maxAlarme[];
+extern uint8_t alarmPlaying;
 
 // Dados
 extern uint8_t data[];
 extern const uint8_t maxData[];
-
 
 
 #endif  // GVARS_H

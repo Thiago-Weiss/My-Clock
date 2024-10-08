@@ -47,7 +47,9 @@ Button bnt3(BNT_PIN3, bnt_3_Funcs, true, true, false);
 /////////////// class Timer ////////////////
 Timer backMenuTimer(1000 * 30, backMenu);           // 10s
 Timer displayOffTimer(1000 * 120, displayTurnOff);  // 60s
+Timer alarmTimer(1000 * 50, attAlarmePlay);         // 50s
 //==========================================
+
 
 
 
@@ -59,6 +61,7 @@ uint8_t cursor = 0;
 uint8_t alarme1[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 uint8_t alarme2[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 uint8_t const maxAlarme[] = { 24, 60, 2, 2, 2, 2, 2, 2, 2 };
+uint8_t alarmPlaying = 0;
 
 // data        DD/MM/AA d  hh:mm Button
 uint8_t data[] = { 0, 0, 0, 0, 0, 0, 0};

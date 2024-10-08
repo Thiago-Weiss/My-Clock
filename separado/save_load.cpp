@@ -1,6 +1,7 @@
 #include "save_load.h"
 #include <EEPROM.h>
 #include "Gvars.h"
+#include "music.h"
 
 
 static void saveAlarme1();
@@ -10,13 +11,25 @@ static void saveMusic();
 
 
 void load_all() {
+  uint8_t result = 0;
   for (uint8_t i = 0; i < cursorAlarmLimite; i++) {
-    alarme1[i] = (uint8_t)EEPROM.read(i);
+    result = (uint8_t)EEPROM.read(i);
+    if (result < maxAlarme[i]) {
+      alarme1[i] = result;
+    }
   }
+
   for (uint8_t i = cursorAlarmLimite; i < cursorAlarmLimite * 2; i++) {
-    alarme2[i] = (uint8_t)EEPROM.read(i);
+    result = (uint8_t)EEPROM.read(i);
+    if (result < maxAlarme[i - cursorAlarmLimite]) {
+      alarme2[i - cursorAlarmLimite] = result;
+    }
   }
-  // load music
+  
+  result = EEPROM.read((cursorAlarmLimite * 2) + 1);
+  if (result < songsNamesLimite) {
+    currentMusic = result;
+  }
 }
 
 
@@ -41,4 +54,5 @@ static void saveAlarme2() {
 }
 
 static void saveMusic() {
+  EEPROM.update((cursorAlarmLimite * 2) + 1, currentMusic);
 }

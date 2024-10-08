@@ -1,9 +1,10 @@
 #include "displayText.h"
 #include "Gvars.h"
+#include "music.h"
 
 // text
-static char linha1[18] = {'\0'};
-static char linha2[18] = {'\0'};
+static char linha1[18] = { '\0' };
+static char linha2[18] = { '\0' };
 
 // mains funcs
 static void showMenuLinha1();
@@ -45,7 +46,7 @@ void displayText() {
       }
     case SOUND:
       {
-
+        showConfigSound();
         break;
       }
     case DATA:
@@ -194,6 +195,10 @@ static void showAlarm(uint8_t alarme[]) {
 
 
 static void showConfigSound() {
+  // linha1 "alarm 1-2  music"
+  strcpy(linha1, "alarm 1-2  music");
+  // linha1 "<     name     >"
+  strcpy(linha2, songsNames[currentMusic]);
 }
 
 static void showConfigData() {
@@ -226,11 +231,10 @@ static void showConfigData() {
     strcat(linha1, ">");
     strcat(linha1, result);
     strcat(linha1, "<");
-  } else if (cursor == 2){
+  } else if (cursor == 2) {
     strcat(linha1, result);
     strcat(linha1, " ");
-  } 
-  else {
+  } else {
     strcat(linha1, " ");
     strcat(linha1, result);
     strcat(linha1, " ");
@@ -250,6 +254,40 @@ static void showConfigData() {
 
 
 static void showAlarmPlayScreen() {
+
+  // linha1 "--- Alarm 1  ---"
+  strcpy(linha1, "--- Alarm ");
+
+  char buffer[9];
+  itoa(alarmPlaying, buffer, 10);
+  strcat(linha1, buffer);
+
+  strcat(linha1, "  ---");
+
+
+
+  // linha2 "18:30 20/04  sab"
+  uint8_t* alarme = (alarmPlaying == 1 ? alarme1 : alarme2);
+
+  numToText(alarme[0], buffer);
+  strcpy(linha2, buffer);
+  strcat(linha2, ":");
+
+  numToText(alarme[1], buffer);
+  strcat(linha2, buffer);
+  strcat(linha2, " ");
+
+  numToText(myRTC.dayofmonth, buffer);
+  strcat(linha2, buffer);
+  strcat(linha2, "/");
+
+  numToText(myRTC.month, buffer);
+  strcat(linha2, buffer);
+  strcat(linha2, "  ");
+
+  dayOfWeek(myRTC.dayofweek, buffer);
+  buffer[3] = '\0';
+  strcat(linha2, buffer);
 }
 
 

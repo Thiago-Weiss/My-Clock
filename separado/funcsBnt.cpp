@@ -2,7 +2,7 @@
 #include "utils.h"
 #include "save_load.h"
 #include "Gvars.h"
-
+#include "music.h"
 
 
 // funcs
@@ -11,6 +11,8 @@ static void configDataValues();
 
 void bnt_1_Funcs() {
   if (displayTurnOn()) return;
+  if (alarmOff()) return;
+
 
   backMenuTimer.reset();
   lcd.clear();
@@ -21,6 +23,7 @@ void bnt_1_Funcs() {
   switch (currentWindows) {
     case DATA:
       {
+        stopPlayMusic();
         configDataValues();
         break;
       }
@@ -33,6 +36,7 @@ void bnt_1_Funcs() {
 
 void bnt_2_Funcs() {
   if (displayTurnOn()) return;
+  if (alarmOff()) return;
 
 
   switch (currentWindows) {
@@ -51,14 +55,15 @@ void bnt_2_Funcs() {
         nextVal(&cursor, cursorAlarmLimite);
         break;
       }
+    case SOUND:
+      {
+        previousVal(&currentMusic, songsNamesLimite);
+        startPlayMusic(songs[currentMusic], 0);
+        break;
+      }
     case DATA:
       {
         nextVal(&cursor, cursorDataLimite);
-        break;
-      }
-    case SOUND:
-      {
-        // tem que implementar
         break;
       }
   }
@@ -68,6 +73,7 @@ void bnt_2_Funcs() {
 
 void bnt_3_Funcs() {
   if (displayTurnOn()) return;
+  if (alarmOff()) return;
 
   switch (currentWindows) {
     case MENU:
@@ -87,7 +93,8 @@ void bnt_3_Funcs() {
       }
     case SOUND:
       {
-        // tem que implementar
+        nextVal(&currentMusic, songsNamesLimite);
+        startPlayMusic(songs[currentMusic], 0);
         break;
       }
     case DATA:
@@ -116,3 +123,6 @@ static void configDataValues() {
   data[4] = myRTC.year;
   data[5] = myRTC.dayofweek;
 }
+
+
+
