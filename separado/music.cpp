@@ -213,8 +213,10 @@ void stopPlayMusic() {
 
 
 void attPlayMusic() {
-  if (!playingMusic) return;
-
+  if (!playingMusic) {
+    noTone(BUZZER_PIN);
+    return;
+  }
   currentDuration -= deltaTime();
 
   if (currentDuration <= 0) {

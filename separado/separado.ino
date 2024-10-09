@@ -19,6 +19,7 @@ void setup() {
 
   // buzzer
   pinMode(BUZZER_PIN, OUTPUT);
+  noTone(BUZZER_PIN);
 
   Serial.begin(9600);
 
