@@ -85,7 +85,7 @@ Em geral, a programação também não foi desafiadora, pois usei principalmente
 Melhorei consideravelmente minhas habilidades em C, pois pratiquei bastante e utilizei muitos ponteiros e estruturas de dados básicas. Além disso, aprendi conceitos fundamentais de eletrônica.
 
 ### 5. Resultados Finais
-Apesar de ter aprendido muitas coisas e ter conseguido implementar o projeto, o resultado final apresentou problemas que classificaria como de hardware. O principal deles foi a tela LCD, que frequentemente perdia contraste, especialmente quando o Arduino estava alimentado com 9V em vez de pela entrada USB. Acredito que isso ocorreu devido à insuficiência de amperagem, mas não tenho certeza. Testei o resultado final por um curto período, pois já ia testando cada parte enquanto construía.
+Apesar de ter aprendido muitas coisas e ter conseguido implementar o projeto, o resultado final apresentou problemas que classificaria como de hardware. O principal deles foi a tela LCD, que frequentemente perdia contraste, especialmente quando o Arduino era alimentado com 9V em vez de pela entrada USB. Acredito que isso ocorreu devido à insuficiência de amperagem, mas não tenho certeza. Testei o resultado final por um curto período, pois já ia testando cada parte enquanto construía.
 
 
 
