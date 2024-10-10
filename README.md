@@ -6,7 +6,7 @@
 2. [Requisitos/Funcionalidades](#Funcionalidades)
 3. [Imagens](#imagens)
 4. [Peças](#peças)
-5. [Relato de Experiência](#Desenvolvimento_do_Projeto)
+5. [Relato de Experiência](#DesenvolvimentodoProjeto)
 5. [ideias de melhorias](#melhorias?)
 6. [Créditos](#creditos)
 
@@ -69,7 +69,7 @@ No começo, a ideia era simples: ler o tempo de um módulo RTC e exibi-lo em um 
 
 
 
-## Desenvolvimento do Projeto
+## DesenvolvimentodoProjeto
 
 ### 1. Desenvolvimento
 Como mencionado anteriormente na minha [ideia inicial](#ideia-inicial), utilizei a **Arduino IDE** para escrever o programa. Inicialmente, testei no **Tinkercad** e, em seguida, migrei para o **Wokwi** para simulações e testes físicos. Para aprofundar meus conhecimentos em eletrônica, assisti a um curso no YouTube e consultei vídeos isolados sobre bibliotecas para o RTC e o AHT10, além de utilizar o ChatGPT para esclarecer dúvidas específicas.
