@@ -125,9 +125,10 @@ static void showMenuLinha2Data() {
   strcat(linha2, result);
   strcat(linha2, "/");
 
-  numToText(myRTC.year, result);
+  numToText(myRTC.year - 2000, result);
+  strcat(linha2, "20");
   strcat(linha2, result);
-  strcat(linha2, " --");
+  strcat(linha2, " -- ");
 }
 
 
@@ -201,6 +202,7 @@ static void showConfigSound() {
   strcpy(linha2, songsNames[currentMusic]);
 }
 
+
 static void showConfigData() {
   char result[9];
 
@@ -225,7 +227,7 @@ static void showConfigData() {
   }
 
   // linha1 "_dd/mm/aaaa_day_"
-  dayOfWeek(data[3] + 1, result);
+  dayOfWeek(data[3], result);
   result[3] = '\0';
   if (cursor == 3) {
     strcat(linha1, ">");
@@ -242,11 +244,11 @@ static void showConfigData() {
 
 
   // linha2 "_HH_:_MM__Data__"
-  formatNum(data[5], result, 4);
+  formatNum(data[4], result, 4);
   strcpy(linha2, result);
   strcat(linha2, ":");
 
-  formatNum(data[6], result, 5);
+  formatNum(data[5], result, 5);
   strcat(linha2, result);
   strcat(linha2, (cursor == 6 ? ">Data?<" : " Data  "));
 }

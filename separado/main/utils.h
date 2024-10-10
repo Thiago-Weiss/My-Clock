@@ -7,6 +7,7 @@
 
 void previousVal(uint8_t *val, uint8_t maxVal);
 void nextVal(uint8_t *val, uint8_t maxVal);
+void nextValData(uint8_t *val, uint8_t maxVal);
 void backMenu();
 
 bool displayTurnOn();

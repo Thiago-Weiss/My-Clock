@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
 #include <Adafruit_AHTX0.h>
-#include "virtuabotixRTC.h"
+#include <virtuabotixRTC.h>
 #include "Timer.h"
 #include "Button.h"
 

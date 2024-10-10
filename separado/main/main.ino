@@ -13,12 +13,16 @@
 
 
 void setup() {
+  if (!sensorTemp.begin()) {
+    while (1) delay(10);
+  }
   // talvez fazer um firts load pra zerra todos os valores
   // load data
-  //load_all();
+  load_all();
 
   // buzzer
   pinMode(BUZZER_PIN, OUTPUT);
+
   noTone(BUZZER_PIN);
 
   Serial.begin(9600);

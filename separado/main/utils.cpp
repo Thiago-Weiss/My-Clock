@@ -14,12 +14,13 @@ static uint8_t displayLight = 255;
 
 
 void previousVal(uint8_t *val, uint8_t maxVal) {
-  if (*val == 0){
+  if (*val == 0) {
     *val = maxVal - 1;
-  }else{
+  } else {
     *val -= 1;
   }
   backMenuTimer.reset();
+  displayOffTimer.reset();
   Serial.print(*val);
 }
 
@@ -28,7 +29,15 @@ void nextVal(uint8_t *val, uint8_t maxVal) {
   if (*val >= maxVal)
     *val = 0;
   backMenuTimer.reset();
+  displayOffTimer.reset();
   Serial.print(*val);
+}
+
+void nextValData(uint8_t *val, uint8_t maxVal) {
+  nextVal(val, maxVal);
+  if (*val == 0) {
+    *val = 1;
+  }
 }
 
 void backMenu() {
@@ -61,17 +70,18 @@ void displayTurnOff() {
 
 void attAlarmePlay() {
   //   alarme        hh mm d  s  t  q  q  s  s
-
+  alarmTimer.reset();
   static bool alarme_1_ativado = false;
+
   if (alarme1[myRTC.dayofweek + 1]) {
     if (alarme1[0] == myRTC.hours) {
-      if (alarme2[1] == myRTC.minutes) {
+      if (alarme1[1] == myRTC.minutes) {
         if (!alarme_1_ativado) {
-          alarme_1_ativado = false;
+          alarme_1_ativado = true;
           alarmPlaying = 1;
           startPlayMusic(songs[0], 0);
           backMenuTimer.stop();
-          backMenu();
+          lcd.clear();
           currentWindows = ALARME_PLAYING;
         }
       } else {
@@ -85,11 +95,11 @@ void attAlarmePlay() {
     if (alarme2[0] == myRTC.hours) {
       if (alarme2[1] == myRTC.minutes) {
         if (!alarme_1_ativado) {
-          alarme_1_ativado = false;
+          alarme_1_ativado = true;
           alarmPlaying = 2;
           startPlayMusic(songs[0], 0);
           backMenuTimer.stop();
-          backMenu();
+          lcd.clear();
           currentWindows = ALARME_PLAYING;
         }
       } else {
@@ -102,8 +112,7 @@ void attAlarmePlay() {
 bool alarmOff() {
   if (alarmPlaying > 0) {
     alarmPlaying = 0;
-    lcd.clear();
-    currentWindows = MENU;
+    backMenu();
     return true;
   }
   return false;

@@ -190,6 +190,7 @@ static int wholenote = 0;
 
 
 void startPlayMusic(const Music* song, byte repeat) {
+  Serial.println("aaaaa");
   // controle da musica
   playingMusic = true;
   noTone(BUZZER_PIN);

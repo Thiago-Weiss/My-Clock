@@ -4,7 +4,7 @@
 
 #include <Arduino.h> 
 
-#define BUZZER_PIN 6
+#define BUZZER_PIN 11
 
 
 

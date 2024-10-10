@@ -99,10 +99,11 @@ void bnt_3_Funcs() {
       }
     case DATA:
       {
-        if (cursor == cursorDataLimite) {
-          // data         DD/MM/AA - d hh:mm Button 
+        if (cursor == cursorDataLimite - 1) {
+          // data        DD/MM/AA d  hh:mm Button
           // seconds, minutes, hours, day of the week, day of the month, month, year
-          myRTC.setDS1302Time(0, data[5], data[4], data[3], data[0], data[1], data[2]);
+          myRTC.setDS1302Time(0, data[5], data[4], data[3], data[0], data[1], 2000 + data[2]);
+          Serial.println("ddddddd");
           backMenu();
         }
         nextVal(&data[cursor], maxData[cursor]);
@@ -114,14 +115,12 @@ void bnt_3_Funcs() {
 
 
 static void configDataValues() {
-  // data         hh:mm - DD/MM/AA - d
-
-  data[0] = myRTC.hours;
-  data[1] = myRTC.minutes;
-  data[2] = myRTC.dayofmonth;
-  data[3] = myRTC.month;
-  data[4] = myRTC.year;
-  data[5] = myRTC.dayofweek;
+  data[0] = myRTC.dayofmonth;
+  data[1] = myRTC.month;
+  data[2] = myRTC.year - 2000;
+  data[3] = myRTC.dayofweek;
+  data[4] = myRTC.hours;
+  data[5] = myRTC.minutes;
 }
 
 

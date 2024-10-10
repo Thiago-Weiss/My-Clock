@@ -63,9 +63,10 @@ uint8_t alarme2[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 uint8_t const maxAlarme[] = { 24, 60, 2, 2, 2, 2, 2, 2, 2 };
 uint8_t alarmPlaying = 0;
 
+
 // data        DD/MM/AA d  hh:mm Button
 uint8_t data[] = { 0, 0, 0, 0, 0, 0, 0};
-uint8_t const maxData[] = {32, 13, 100, 7, 24, 60, 1};
+uint8_t const maxData[] = {33, 13, 100, 7, 24, 60, 1};
 
 // telas
 uint8_t currentWindows = MENU;
