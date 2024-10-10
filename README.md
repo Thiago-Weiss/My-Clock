@@ -7,8 +7,8 @@
 3. [Imagens](#imagens)
 4. [Peças](#peças)
 5. [Relato de Experiência](#DesenvolvimentodoProjeto)
-5. [ideias de melhorias](#melhorias?)
-6. [Créditos](#creditos)
+5. [ideias de melhorias](#melhorias)
+6. [Créditos](#Créditos)
 
 
 
@@ -90,7 +90,7 @@ Apesar de ter aprendido muitas coisas e ter conseguido implementar o projeto, o 
 
 
 
-## Melhorias Futuras
+## melhorias
 
 Durante o desenvolvimento do projeto, tive várias ideias de funcionalidades que poderiam ser interessantes de implementar:
 
