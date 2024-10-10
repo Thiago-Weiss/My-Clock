@@ -74,6 +74,8 @@ No começo, a ideia era simples: ler o tempo de um módulo RTC e exibi-lo em um 
 ### 1. Desenvolvimento
 Como mencionado anteriormente na minha [ideia inicial](#ideia-inicial), utilizei a **Arduino IDE** para escrever o programa. Inicialmente, testei no **Tinkercad** e, em seguida, migrei para o **Wokwi** para simulações e testes físicos. Para aprofundar meus conhecimentos em eletrônica, assisti a um curso no YouTube e consultei vídeos isolados sobre bibliotecas para o RTC e o AHT10, além de utilizar o ChatGPT para esclarecer dúvidas específicas.
 
+Além disso, usei o **Excalidraw** para ajudar a projetar as telas e outras partes do sistema, permitindo uma visualização mais clara da interface do usuário e facilitando a organização das funcionalidades.
+![Montagem Física](img/ideia.png)
 
 ### 2. Desafios da Montagem
 A montagem física não foi um grande desafio, pois era difícil errar significativamente. O máximo que poderia acontecer seria não funcionar, já que todos os componentes operam com 5V, que é o que o Arduino fornece. Além disso, fiz um curso básico de eletrônica no YouTube que abordou conceitos fundamentais de eletronica e eletrica. A parte mais desafiadora foi aprender a soldar, pois meu módulo de temperatura veio sem os pinos soldados e precisei solda-los.
