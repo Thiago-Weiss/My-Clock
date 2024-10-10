@@ -3,7 +3,7 @@
 
 ## Índice
 1. [Ideia geral do projeto](#Ideia_inicial)
-2. [Requisitos/Funcionalidades"](#Funcionalidades)
+2. [Requisitos/Funcionalidades](#Funcionalidades)
 3. [Imagens](#imagens)
 4. [Peças](#peças)
 5. [Relato de Experiência](#Desenvolvimento_do_Projeto)
